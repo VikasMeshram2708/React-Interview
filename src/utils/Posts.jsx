@@ -9,6 +9,7 @@ const Posts = () => {
   const [fetching, setFetching] = useState(true);
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     const fetcPosts = async () => {
@@ -17,9 +18,10 @@ const Posts = () => {
       setPosts(result);
       setFetching(false);
     };
-
     fetcPosts();
-  }, []);
+
+    setDisabled(page <= 1);
+  }, [page]);
 
   const subSet = () => {
     const startIndex = (page - 1) * POST_PER_PAGE;
@@ -32,6 +34,7 @@ const Posts = () => {
   };
 
   const loadPrevious = () => {
+    console.log("prev clicked");
     if (page > 1) {
       setPage((prevPage) => prevPage - 1);
     }
@@ -51,8 +54,8 @@ const Posts = () => {
         {subSet()?.map((post) => (
           <div key={post?.id} className="bg-white p-6 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">{post?.id}</h2>
-            <Link to={`/post/${post?.id}`} >
-            <h2 className="text-xl font-semibold mb-4">{post?.title}</h2>
+            <Link to={`/post/${post?.id}`}>
+              <h2 className="text-xl font-semibold mb-4">{post?.title}</h2>
             </Link>
             <p className="text-gray-700">{post?.body}</p>
           </div>
@@ -63,7 +66,10 @@ const Posts = () => {
         <button
           onClick={loadPrevious}
           type="button"
-          className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 "
+          disabled={disabled}
+          className={`bg-red-500 text-white font-semibold rounded-md px-4 py-2 ${
+            disabled ? "cursor-not-allowed" : "cursor-pointer"
+          }`}
         >
           Previous
         </button>
