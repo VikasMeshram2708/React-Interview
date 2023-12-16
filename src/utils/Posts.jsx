@@ -26,15 +26,21 @@ const Posts = () => {
     return posts?.slice(startIndex, endIndex);
   };
 
-  const loadMore = () => {
+  const loadNext = () => {
     setPage((prevPage) => prevPage + 1);
+  };
+
+  const loadPrevious = () => {
+    if (page > 1) {
+      setPage((prevPage) => prevPage - 1);
+    }
   };
 
   // console.log(subSet());
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-center text-2xl font-semibold text-gray-800 mb-8">
+      <h1 className="text-center text-2xl font-semibold text-white mb-8">
         Latest Posts
       </h1>
 
@@ -43,19 +49,27 @@ const Posts = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {subSet()?.map((post) => (
           <div key={post?.id} className="bg-white p-6 rounded-md shadow-md">
+            <h2 className="text-xl font-semibold mb-4">{post?.id}</h2>
             <h2 className="text-xl font-semibold mb-4">{post?.title}</h2>
             <p className="text-gray-700">{post?.body}</p>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-8 gap-5">
         <button
-          onClick={loadMore}
+          onClick={loadPrevious}
           type="button"
-          className="bg-blue-500 text-white font-semibold rounded-md px-4 py-2 "
+          className="bg-red-500 text-white font-semibold rounded-md px-4 py-2 "
         >
-          Load More
+          Previous
+        </button>
+        <button
+          onClick={loadNext}
+          type="button"
+          className="bg-green-500 text-white font-semibold rounded-md px-4 py-2 "
+        >
+          Load Next
         </button>
       </div>
     </div>
