@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
+import { Link } from "react-router-dom";
 
 const BASE_URI = "https://jsonplaceholder.typicode.com/posts";
 const POST_PER_PAGE = 10;
@@ -50,7 +51,9 @@ const Posts = () => {
         {subSet()?.map((post) => (
           <div key={post?.id} className="bg-white p-6 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">{post?.id}</h2>
+            <Link to={`/post/${post?.id}`} >
             <h2 className="text-xl font-semibold mb-4">{post?.title}</h2>
+            </Link>
             <p className="text-gray-700">{post?.body}</p>
           </div>
         ))}
